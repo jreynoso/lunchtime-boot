@@ -1,0 +1,55 @@
+plugins {
+    id "org.springframework.boot" version "2.2.6.RELEASE"
+    id "io.spring.dependency-management" version "1.0.9.RELEASE"
+    id "java"
+    id "groovy"
+    id "io.freefair.lombok" version "5.0.0-rc6"
+    id "org.ajoberstar.grgit" version "4.0.2"
+}
+
+group = "com.dispassionproject"
+version = "0.0.1-SNAPSHOT"
+sourceCompatibility = "1.8"
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    groovy_version = "2.5.8"
+    javafaker_version = "1.0.2"
+    jcabi_manifests_version = "1.1"
+    spock_version = "2.0-M1-groovy-2.5"
+}
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "com.github.javafaker:javafaker:${javafaker_version}"
+    implementation "com.jcabi:jcabi-manifests:${jcabi_manifests_version}"
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+    }
+
+    // needed for spock
+    implementation "org.codehaus.groovy:groovy-all:${groovy_version}"
+    testImplementation platform("org.spockframework:spock-bom:${spock_version}")
+    testImplementation "org.spockframework:spock-core"
+    testImplementation "org.spockframework:spock-spring"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+jar {
+    manifest {
+        attributes "Project-Name": project.name,
+                "Version": project.version,
+                "Commit": grgit.head() ? grgit.head().abbreviatedId : "N/A",
+                "Build-Date": new Date(),
+                "Build": System.getenv("BUILD_NUMBER") ?: "N/A"
+    }
+}

@@ -1,0 +1,7 @@
+logging:
+  level:
+    com.dispassionproject.lunchtime: DEBUG
+    root: INFO
+
+# enables very verbose auto-configuration report
+debug: true

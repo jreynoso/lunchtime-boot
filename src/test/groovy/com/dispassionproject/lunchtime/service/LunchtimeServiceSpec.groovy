@@ -7,18 +7,18 @@ class LunchtimeServiceSpec extends BaseSpec {
     LunchtimeService lunchtimeService
 
     def setup() {
-        lunchtimeService = new SimpleLunchtimeService()
+        lunchtimeService = new DummyLunchtimeService()
     }
 
     def "should return empty lunch options"() {
         given:
-        def loc = aRandom.faker.lorem().word()
+        def loc = aRandom.geoLocation().build()
 
         when:
-        def response = lunchtimeService.getLunchtimeOptions(loc)
+        def response = lunchtimeService.getLunchtimeOptions(loc.toUrlValue())
 
         then:
-        response.criteria["loc"] == loc
+        response.criteria.loc == loc
         response.options.size() == 0
     }
 

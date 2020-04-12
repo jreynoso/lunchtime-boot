@@ -16,6 +16,7 @@ repositories {
 }
 
 ext {
+    google_maps_api_version = "0.11.0"
     groovy_version = "2.5.8"
     javafaker_version = "1.0.2"
     jcabi_manifests_version = "1.1"
@@ -23,9 +24,11 @@ ext {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "com.github.javafaker:javafaker:${javafaker_version}"
+    implementation "com.google.maps:google-maps-services:${google_maps_api_version}"
     implementation "com.jcabi:jcabi-manifests:${jcabi_manifests_version}"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
+    testImplementation "com.github.javafaker:javafaker:${javafaker_version}"
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "org.junit.vintage", module: "junit-vintage-engine"
     }

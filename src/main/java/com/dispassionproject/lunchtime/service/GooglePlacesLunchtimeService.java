@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.dispassionproject.lunchtime.controller.LunchtimeController.LOC;
@@ -48,7 +49,13 @@ public class GooglePlacesLunchtimeService implements LunchtimeService {
         return LunchtimeResponse.builder()
                 .criteria(criteria)
                 .options(lunchOptions)
+                .suggestion(getSuggestion(lunchOptions))
                 .build();
+    }
+
+    private LunchOption getSuggestion(final List<LunchOption> lunchOptions) {
+        int size = lunchOptions.size();
+        return size > 0 ? lunchOptions.get(new Random().nextInt(size)) : null;
     }
 
     private LatLng toLatLng(final GeoLocation geoLocation) {

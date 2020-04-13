@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LunchtimeController {
 
+    public static final String ANY = "*";
+    public static final String LOC = "loc";
+
     private final LunchtimeService lunchtimeService;
 
     @GetMapping("/lunchtime")
     public LunchtimeResponse handleLunchtimeRequest(
-            @RequestParam(value = "loc", defaultValue = "*") String loc
+            @RequestParam(value = LOC, defaultValue = ANY) final String loc
     ) {
         return lunchtimeService.getLunchtimeOptions(loc);
     }

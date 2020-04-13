@@ -4,6 +4,6 @@ import com.dispassionproject.lunchtime.api.LunchtimeResponse;
 
 public interface LunchtimeService {
 
-    LunchtimeResponse getLunchtimeOptions(String loc);
+    LunchtimeResponse getLunchtimeOptions(final String loc);
 
 }

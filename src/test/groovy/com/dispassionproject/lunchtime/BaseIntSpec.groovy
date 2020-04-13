@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@ActiveProfiles(["integration-test"])
+@ActiveProfiles("integration-test")
 class BaseIntSpec extends BaseSpec {
 
     @Autowired
@@ -33,11 +33,11 @@ class BaseIntSpec extends BaseSpec {
                 .andExpect(expectedStatus)
                 .andReturn()
 
-        return result.getResponse()
+        result.getResponse()
     }
 
     def responseToLunchtimeResponse(MockHttpServletResponse response) {
-        return objectMapper.readValue(response.getContentAsByteArray(), LunchtimeResponse)
+        objectMapper.readValue(response.getContentAsByteArray(), LunchtimeResponse)
     }
 
 }

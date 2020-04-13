@@ -31,6 +31,12 @@ class LunchtimeServiceSpec extends BaseSpec {
         response.options[0].address == placeSearchResult.formattedAddress
         response.options[0].vicinity == placeSearchResult.vicinity
         response.options[0].rating == placeSearchResult.rating
+        response.suggestion.id == placeSearchResult.placeId
+        response.suggestion.name == placeSearchResult.name
+        response.suggestion.imageUrl == placeSearchResult.icon
+        response.suggestion.address == placeSearchResult.formattedAddress
+        response.suggestion.vicinity == placeSearchResult.vicinity
+        response.suggestion.rating == placeSearchResult.rating
     }
 
 }

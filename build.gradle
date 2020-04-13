@@ -2,6 +2,7 @@ plugins {
     id "org.springframework.boot" version "2.2.6.RELEASE"
     id "io.spring.dependency-management" version "1.0.9.RELEASE"
     id "java"
+    id "idea"
     id "groovy"
     id "io.freefair.lombok" version "5.0.0-rc6"
     id "org.ajoberstar.grgit" version "4.0.2"
@@ -47,12 +48,17 @@ test {
     }
 }
 
-jar {
+bootJar {
+    archivesBaseName = project.name
+    version = project.version
+
     manifest {
         attributes "Project-Name": project.name,
                 "Version": project.version,
                 "Commit": grgit.head() ? grgit.head().abbreviatedId : "N/A",
                 "Build-Date": new Date(),
-                "Build": System.getenv("BUILD_NUMBER") ?: "N/A"
+                "Build": System.getenv("CIRCLE_BUILD_NUM") ?: "N/A"
     }
+
+    exclude "**/application-local.yml"
 }

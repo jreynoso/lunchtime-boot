@@ -42,14 +42,10 @@ jobs:
       - run: gradle test
 
       - store_test_results:
-          paths:
-            - build/test-results/test
-            - build/reports/tests/test
+          path: build/reports/tests/test
 
       - store_artifacts:
-          paths:
-            - build/test-results/test
-            - build/reports/tests/test
+          path: build/reports/tests/test
           when: always
 
       # build jar

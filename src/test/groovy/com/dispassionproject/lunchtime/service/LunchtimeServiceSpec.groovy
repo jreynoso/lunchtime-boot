@@ -5,11 +5,11 @@ import com.dispassionproject.lunchtime.BaseSpec
 class LunchtimeServiceSpec extends BaseSpec {
 
     LunchtimeService lunchtimeService
-    GooglePlacesLookupService mockGooglePlacesLookupService
+    GooglePlacesQueryService mockGooglePlacesLookupService
 
     def setup() {
-        mockGooglePlacesLookupService = Mock(GooglePlacesLookupService)
-        lunchtimeService = new GooglePlacesLunchtimeService(mockGooglePlacesLookupService)
+        mockGooglePlacesLookupService = Mock(GooglePlacesQueryService)
+        lunchtimeService = new DefaultLunchtimeService(mockGooglePlacesLookupService)
     }
 
     def "should return lunch options"() {
@@ -28,14 +28,12 @@ class LunchtimeServiceSpec extends BaseSpec {
         response.options[0].id == placeSearchResult.placeId
         response.options[0].name == placeSearchResult.name
         response.options[0].imageUrl == placeSearchResult.icon
-        response.options[0].address == placeSearchResult.formattedAddress
-        response.options[0].vicinity == placeSearchResult.vicinity
+        response.options[0].address == placeSearchResult.vicinity
         response.options[0].rating == placeSearchResult.rating
         response.suggestion.id == placeSearchResult.placeId
         response.suggestion.name == placeSearchResult.name
         response.suggestion.imageUrl == placeSearchResult.icon
-        response.suggestion.address == placeSearchResult.formattedAddress
-        response.suggestion.vicinity == placeSearchResult.vicinity
+        response.suggestion.address == placeSearchResult.vicinity
         response.suggestion.rating == placeSearchResult.rating
     }
 

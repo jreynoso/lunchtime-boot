@@ -2,14 +2,14 @@ package com.dispassionproject.lunchtime.controller
 
 import com.dispassionproject.lunchtime.BaseIntSpec
 import com.dispassionproject.lunchtime.exception.LunchtimeServiceException
-import com.dispassionproject.lunchtime.service.GooglePlacesLookupService
+import com.dispassionproject.lunchtime.service.GooglePlacesQueryService
 import com.google.maps.errors.ApiException
 import org.springframework.beans.factory.annotation.Autowired
 
 class LunchtimeControllerIntSpec extends BaseIntSpec {
 
     @Autowired
-    GooglePlacesLookupService mockGooglePlacesLookupService
+    GooglePlacesQueryService mockGooglePlacesLookupService
 
     def "should get a valid response"() {
         given:

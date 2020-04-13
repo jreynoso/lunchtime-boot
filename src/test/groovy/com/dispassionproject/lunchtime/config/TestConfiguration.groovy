@@ -1,6 +1,6 @@
 package com.dispassionproject.lunchtime.config
 
-import com.dispassionproject.lunchtime.service.GooglePlacesLookupService
+import com.dispassionproject.lunchtime.service.GooglePlacesQueryService
 import com.google.maps.GeoApiContext
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.context.annotation.Bean
@@ -22,8 +22,8 @@ class TestConfiguration {
     }
 
     @Bean
-    GooglePlacesLookupService googlePlacesLookupService() {
-        detachedMockFactory.Mock(GooglePlacesLookupService)
+    GooglePlacesQueryService googlePlacesQueryService() {
+        detachedMockFactory.Mock(GooglePlacesQueryService)
     }
 
 }

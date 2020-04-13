@@ -25,10 +25,10 @@ import static com.dispassionproject.lunchtime.util.GeoLocationUtil.toGeoLocation
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class GooglePlacesLunchtimeService implements LunchtimeService {
+public class DefaultLunchtimeService implements LunchtimeService {
 
     @Autowired
-    private final GooglePlacesLookupService googlePlacesLookupService;
+    private final GooglePlacesQueryService googlePlacesQueryService;
 
     @Override
     public LunchtimeResponse getLunchtimeOptions(final String loc) {
@@ -37,7 +37,7 @@ public class GooglePlacesLunchtimeService implements LunchtimeService {
 
         List<LunchOption> lunchOptions;
         try {
-            final PlacesSearchResponse response = googlePlacesLookupService.getPlaces(toLatLng(geoLocation));
+            final PlacesSearchResponse response = googlePlacesQueryService.getPlaces(toLatLng(geoLocation));
             lunchOptions = Arrays.stream(response.results)
                     .map(this::toLunchOption)
                     .collect(Collectors.toList());
@@ -67,8 +67,7 @@ public class GooglePlacesLunchtimeService implements LunchtimeService {
                 .id(place.placeId)
                 .name(place.name)
                 .imageUrl(place.icon)
-                .address(place.formattedAddress)
-                .vicinity(place.vicinity)
+                .address(place.vicinity)
                 .rating(place.rating)
                 .build();
     }

@@ -18,7 +18,7 @@ import java.io.IOException;
 @Profile("!integration-test")
 @Service
 @RequiredArgsConstructor
-public class GooglePlacesLookupService {
+public class GooglePlacesQueryService {
 
     @Autowired
     private final GeoApiContext geoApiContext;

@@ -17,7 +17,6 @@ public class LunchOption {
     private String name;
     private URL imageUrl;
     private String address;
-    private String vicinity;
     private Float rating;
 
 }

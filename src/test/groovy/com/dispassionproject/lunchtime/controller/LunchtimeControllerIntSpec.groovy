@@ -51,7 +51,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
     def "should throw service exception when there's an error invoking the places api"() {
         given:
         def loc = aRandom.geoLocation().build()
-        1 * mockGooglePlacesLookupService.getPlaces(_) >> { throw new ApiException("unknown") }
+        1 * mockGooglePlacesLookupService.getPlaces(_) >> { throw ApiException.from("error", "unknown") }
 
         when:
         getLunchOptions(loc.toUrlValue())

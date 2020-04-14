@@ -18,7 +18,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
         1 * mockGooglePlacesLookupService.getPlaces(_) >> aRandom.placesSearchResponse(numPlaces)
 
         when:
-        def response = getLunchOptions(loc.toUrlValue())
+        def response = getLunchOptions("loc=${loc.toUrlValue()}")
         def lunchtimeResponse = responseToLunchtimeResponse(response)
 
         then:
@@ -38,7 +38,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
         1 * mockGooglePlacesLookupService.getPlaces(_) >> noPlacesResponse
 
         when:
-        def response = getLunchOptions(loc.toUrlValue())
+        def response = getLunchOptions("loc=${loc.toUrlValue()}")
         def lunchtimeResponse = responseToLunchtimeResponse(response)
 
         then:
@@ -54,7 +54,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
         1 * mockGooglePlacesLookupService.getPlaces(_) >> { throw ApiException.from("error", "unknown") }
 
         when:
-        getLunchOptions(loc.toUrlValue())
+        getLunchOptions("loc=${loc.toUrlValue()}")
 
         then:
         def exception = thrown(Exception)

@@ -42,8 +42,26 @@ jobs:
       - run: gradle test
 
       - store_test_results:
-          path: build/test-results/test
+          path: build/test-results
 
       - store_artifacts:
-          path: build/test-results/test
+          path: build/reports/tests/test
           when: always
+
+      # build jar
+      - run:
+          name: Assemble JAR
+          command: |
+            # Skip this for other nodes
+            if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
+              ./gradlew assemble
+            fi
+      # As the JAR was only assembled in the first build container, build/libs will be empty in all the other build containers.
+      - store_artifacts:
+          path: build/libs
+      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - build

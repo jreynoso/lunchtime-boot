@@ -1,6 +1,7 @@
 package com.dispassionproject.lunchtime.service
 
 import com.dispassionproject.lunchtime.BaseSpec
+import spock.lang.Unroll
 
 class LunchtimeServiceSpec extends BaseSpec {
 
@@ -12,18 +13,20 @@ class LunchtimeServiceSpec extends BaseSpec {
         lunchtimeService = new DefaultLunchtimeService(mockGooglePlacesLookupService)
     }
 
+    @Unroll
     def "should return lunch options"() {
         given:
         def placesSearchResponse = aRandom.placesSearchResponse()
         def placeSearchResult = placesSearchResponse.results[0]
-        1 * mockGooglePlacesLookupService.getPlaces(_) >> placesSearchResponse
+        1 * mockGooglePlacesLookupService.getPlaces(_, mode.radius) >> placesSearchResponse
         def loc = aRandom.geoLocation().build()
 
         when:
-        def response = lunchtimeService.getLunchtimeOptions(loc.toUrlValue())
+        def response = lunchtimeService.getLunchtimeOptions(loc.toUrlValue(), mode)
 
         then:
         response.criteria.loc == loc
+        response.criteria.mode == mode
         response.options.size() == 1
         response.options[0].id == placeSearchResult.placeId
         response.options[0].name == placeSearchResult.name
@@ -35,6 +38,9 @@ class LunchtimeServiceSpec extends BaseSpec {
         response.suggestion.imageUrl == placeSearchResult.icon
         response.suggestion.address == placeSearchResult.vicinity
         response.suggestion.rating == placeSearchResult.rating
+
+        where:
+        mode << Accessibility.values()
     }
 
 }

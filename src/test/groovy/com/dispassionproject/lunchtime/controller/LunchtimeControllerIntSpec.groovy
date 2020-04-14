@@ -5,6 +5,7 @@ import com.dispassionproject.lunchtime.exception.LunchtimeServiceException
 import com.dispassionproject.lunchtime.service.GooglePlacesQueryService
 import com.google.maps.errors.ApiException
 import org.springframework.beans.factory.annotation.Autowired
+import spock.lang.Unroll
 
 class LunchtimeControllerIntSpec extends BaseIntSpec {
 
@@ -15,7 +16,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
         given:
         def loc = aRandom.geoLocation().build()
         def numPlaces = aRandom.faker.number().numberBetween(1, 10)
-        1 * mockGooglePlacesLookupService.getPlaces(_) >> aRandom.placesSearchResponse(numPlaces)
+        1 * mockGooglePlacesLookupService.getPlaces(_, DRIVE.radius) >> aRandom.placesSearchResponse(numPlaces)
 
         when:
         def response = getLunchOptions("loc=${loc.toUrlValue()}")
@@ -27,7 +28,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
         lunchtimeResponse.options.size() == numPlaces
         lunchtimeResponse.suggestion
         lunchtimeResponse.suggestion.id
-        lunchtimeResponse.options.any {option -> option.id == lunchtimeResponse.suggestion.id }
+        lunchtimeResponse.options.any { option -> option.id == lunchtimeResponse.suggestion.id }
     }
 
     def "should return valid response when there are no places matching criteria"() {
@@ -35,7 +36,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
         def loc = aRandom.geoLocation().build()
         def noPlacesResponse = aRandom.placesSearchResponse()
         noPlacesResponse.results = []
-        1 * mockGooglePlacesLookupService.getPlaces(_) >> noPlacesResponse
+        1 * mockGooglePlacesLookupService.getPlaces(_, DRIVE.radius) >> noPlacesResponse
 
         when:
         def response = getLunchOptions("loc=${loc.toUrlValue()}")
@@ -51,7 +52,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
     def "should throw service exception when there's an error invoking the places api"() {
         given:
         def loc = aRandom.geoLocation().build()
-        1 * mockGooglePlacesLookupService.getPlaces(_) >> { throw ApiException.from("error", "unknown") }
+        1 * mockGooglePlacesLookupService.getPlaces(_, DRIVE.radius) >> { throw ApiException.from("error", "unknown") }
 
         when:
         getLunchOptions("loc=${loc.toUrlValue()}")
@@ -59,6 +60,28 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
         then:
         def exception = thrown(Exception)
         exception.cause instanceof LunchtimeServiceException
+    }
+
+    @Unroll
+    def "should return expected response when mode is #mode"() {
+        given:
+        def loc = aRandom.geoLocation().build()
+        1 * mockGooglePlacesLookupService.getPlaces(_, mode.radius) >> aRandom.placesSearchResponse(numPlaces)
+
+        when:
+        def response = getLunchOptions("loc=${loc.toUrlValue()}&mode=${mode}")
+        def lunchtimeResponse = responseToLunchtimeResponse(response)
+
+        then:
+        lunchtimeResponse.criteria.loc.latitude == loc.latitude
+        lunchtimeResponse.criteria.loc.longitude == loc.longitude
+        lunchtimeResponse.options.size() == numPlaces
+
+        where:
+        mode  || numPlaces
+        WALK  || 2
+        SCOOT || 4
+        DRIVE || 16
     }
 
 }

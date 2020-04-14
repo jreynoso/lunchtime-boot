@@ -1,6 +1,7 @@
 package com.dispassionproject.lunchtime.service
 
 import com.dispassionproject.lunchtime.BaseSpec
+import com.dispassionproject.lunchtime.api.Accessibility
 import spock.lang.Unroll
 
 class LunchtimeServiceSpec extends BaseSpec {

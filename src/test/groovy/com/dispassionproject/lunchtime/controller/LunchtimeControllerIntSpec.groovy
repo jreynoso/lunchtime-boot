@@ -7,6 +7,10 @@ import com.google.maps.errors.ApiException
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Unroll
 
+import static com.dispassionproject.lunchtime.api.Accessibility.DRIVE
+import static com.dispassionproject.lunchtime.api.Accessibility.SCOOT
+import static com.dispassionproject.lunchtime.api.Accessibility.WALK
+
 class LunchtimeControllerIntSpec extends BaseIntSpec {
 
     @Autowired

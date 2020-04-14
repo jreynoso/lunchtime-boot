@@ -15,15 +15,15 @@ class LunchtimeServiceSpec extends BaseSpec {
     }
 
     @Unroll
-    def "should return lunch options"() {
+    def "should return lunch options where accessibility is #mode"() {
         given:
         def placesSearchResponse = aRandom.placesSearchResponse()
         def placeSearchResult = placesSearchResponse.results[0]
-        1 * mockGooglePlacesLookupService.getPlaces(_, mode.radius) >> placesSearchResponse
+        1 * mockGooglePlacesLookupService.getPlaces(_, ((Accessibility) mode).radius) >> placesSearchResponse
         def loc = aRandom.geoLocation().build()
 
         when:
-        def response = lunchtimeService.getLunchtimeOptions(loc.toUrlValue(), mode)
+        def response = lunchtimeService.getLunchtimeOptions(loc.toUrlValue(), (Accessibility) mode)
 
         then:
         response.criteria.loc == loc

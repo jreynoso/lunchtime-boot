@@ -27,7 +27,7 @@ public class GooglePlacesQueryService {
     ) throws InterruptedException, ApiException, IOException {
         return PlacesApi.nearbySearchQuery(geoApiContext, loc)
                 .radius(radius)
-                .rankby(RankBy.DISTANCE)
+                .rankby(RankBy.PROMINENCE)
                 .language("en")
                 .minPrice(PriceLevel.INEXPENSIVE)
                 .maxPrice(PriceLevel.EXPENSIVE)

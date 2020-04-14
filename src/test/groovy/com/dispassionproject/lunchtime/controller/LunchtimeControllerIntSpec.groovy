@@ -29,6 +29,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
         then:
         lunchtimeResponse.criteria.loc.latitude == loc.latitude
         lunchtimeResponse.criteria.loc.longitude == loc.longitude
+        lunchtimeResponse.criteria.mode == "${DRIVE}"
         lunchtimeResponse.options.size() == numPlaces
         lunchtimeResponse.suggestion
         lunchtimeResponse.suggestion.id
@@ -49,6 +50,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
         then:
         lunchtimeResponse.criteria.loc.latitude == loc.latitude
         lunchtimeResponse.criteria.loc.longitude == loc.longitude
+        lunchtimeResponse.criteria.mode == "${DRIVE}"
         lunchtimeResponse.options.size() == 0
         !lunchtimeResponse.suggestion
     }
@@ -79,6 +81,7 @@ class LunchtimeControllerIntSpec extends BaseIntSpec {
         then:
         lunchtimeResponse.criteria.loc.latitude == loc.latitude
         lunchtimeResponse.criteria.loc.longitude == loc.longitude
+        lunchtimeResponse.criteria.mode == "${mode}"
         lunchtimeResponse.options.size() == numPlaces
 
         where:

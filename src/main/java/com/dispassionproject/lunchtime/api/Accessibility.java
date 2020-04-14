@@ -1,5 +1,7 @@
 package com.dispassionproject.lunchtime.api;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Locale;
 
 public enum Accessibility {
@@ -15,6 +17,7 @@ public enum Accessibility {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return name().toLowerCase(Locale.US);
     }

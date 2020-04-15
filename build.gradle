@@ -6,10 +6,12 @@ plugins {
     id "groovy"
     id "io.freefair.lombok" version "5.0.0-rc6"
     id "org.ajoberstar.grgit" version "4.0.2"
+    id "com.palantir.docker" version "0.25.0"
+    id "com.palantir.docker-run" version "0.25.0"
 }
 
 group = "com.dispassionproject"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1-${getBuildNo()}"
 sourceCompatibility = "1.8"
 
 repositories {
@@ -59,8 +61,33 @@ bootJar {
                 "Version": project.version,
                 "Commit": grgit.head() ? grgit.head().abbreviatedId : "N/A",
                 "Build-Date": new Date(),
-                "Build": System.getenv("CIRCLE_BUILD_NUM") ?: "N/A"
+                "Build": getBuildNo()
     }
 
     exclude "**/application-local.yml"
+}
+
+docker {
+    name "dispassionproject/${project.name}:${project.version}"
+    files tasks.bootJar.outputs
+    buildArgs([JAR_FILE: "*.jar"])
+}
+
+docker.dependsOn bootJar
+
+dockerRun {
+    name "${project.name}"
+    image "dispassionproject/${project.name}:${project.version}"
+    ports "8080:8080", "5005:5005"
+    env "JAVA_OPTIONS": \
+        "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -Dgoogle.api.key=${getGoogleApiKey()}"
+    clean true
+}
+
+static def getBuildNo() {
+    System.getenv("CIRCLE_BUILD_NUM") ?: "SNAPSHOT"
+}
+
+static def getGoogleApiKey() {
+    System.getenv("GOOGLE_API_KEY") ?: "N/A"
 }

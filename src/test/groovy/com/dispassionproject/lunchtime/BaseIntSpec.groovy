@@ -26,8 +26,8 @@ class BaseIntSpec extends BaseSpec {
     @Autowired
     MockMvc mvc
 
-    def getLunchOptions(String loc, ResultMatcher expectedStatus = status().isOk()) {
-        MvcResult result = mvc.perform(get("/lunchtime?loc=${loc}")
+    def getLunchOptions(String queryParams, ResultMatcher expectedStatus = status().isOk()) {
+        MvcResult result = mvc.perform(get("/lunchtime?${queryParams}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(expectedStatus)

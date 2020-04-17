@@ -30,6 +30,5 @@ GET /lunchtime?loc={latitude,longitude}
 Return a list of dining options that match the request criteria.
 
 ### Roadmap
-- flesh out the service
 - deploy to google cloud
 - separate configuration for integration tests

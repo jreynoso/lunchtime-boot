@@ -4,10 +4,12 @@ import com.dispassionproject.lunchtime.api.Accessibility;
 import com.dispassionproject.lunchtime.api.LunchtimeResponse;
 import com.dispassionproject.lunchtime.service.LunchtimeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class LunchtimeController {

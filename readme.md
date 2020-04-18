@@ -24,7 +24,7 @@ By default the service will run on port 8080
 
 ### API
 ```
-GET /lunchtime?loc={latitude,longitude}
+GET /lunchtime?loc={latitude,longitude}&mode={walk|scoot|drive}
 ```
 
 Return a list of dining options that match the request criteria.

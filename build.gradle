@@ -12,35 +12,32 @@ plugins {
 
 group = "com.dispassionproject"
 version = "0.0.1-${getBuildNo()}"
-sourceCompatibility = "1.8"
 
 repositories {
     mavenCentral()
 }
 
-ext {
-    google_maps_api_version = "0.11.0"
-    groovy_version = "2.5.8"
-    guava_version = "29.0-jre"
-    javafaker_version = "1.0.2"
-    jcabi_manifests_version = "1.1"
-    spock_version = "2.0-M1-groovy-2.5"
-}
+def fakerVersion = "1.0.2"
+def googleMapsApiVersion = "0.11.0"
+def groovyVersion = "2.5.8"
+def guavaVersion = "29.0-jre"
+def jcabiManifestsVersion = "1.1"
+def spockVersion = "2.0-M1-groovy-2.5"
 
 dependencies {
-    implementation "com.google.guava:guava:${guava_version}"
-    implementation "com.google.maps:google-maps-services:${google_maps_api_version}"
-    implementation "com.jcabi:jcabi-manifests:${jcabi_manifests_version}"
+    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation "com.google.maps:google-maps-services:${googleMapsApiVersion}"
+    implementation "com.jcabi:jcabi-manifests:${jcabiManifestsVersion}"
     implementation "org.springframework.boot:spring-boot-starter-web"
 
-    testImplementation "com.github.javafaker:javafaker:${javafaker_version}"
+    testImplementation "com.github.javafaker:javafaker:${fakerVersion}"
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "org.junit.vintage", module: "junit-vintage-engine"
     }
 
     // needed for spock
-    implementation "org.codehaus.groovy:groovy-all:${groovy_version}"
-    testImplementation platform("org.spockframework:spock-bom:${spock_version}")
+    implementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    testImplementation platform("org.spockframework:spock-bom:${spockVersion}")
     testImplementation "org.spockframework:spock-core"
     testImplementation "org.spockframework:spock-spring"
 }
